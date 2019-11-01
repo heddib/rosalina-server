@@ -4,6 +4,7 @@
     "description": "Serveur Rosalina",
     "main": "index.js",
     "scripts": {
+        "start": "node .",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "Heddi Brahiti <heddi@brahiti.fr>",
