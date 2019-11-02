@@ -1,10 +1,9 @@
-const express = require('express')
-const app = express()
-const http = require('http').Server(app)
-const io = require('socket.io')(http)
+var express = require('express'),
+    app = express(),
+    server = require('http').createServer(app),
+    io = require('socket.io').listen(server)
 
-
-const PORT = process.env.PORT || 3000;
+server.listen(process.env.PORT || 3000,  () => console.log(`listening on port ${ PORT }`))
 
 io.on('connection', (socket) => {
     console.log('Client connected');
@@ -21,5 +20,3 @@ io.on('connection', (socket) => {
         { 'user': 'Serveur', 'message': socket.username + ' a rejoint le chat !'})
     })
 })
-
-http.listen(PORT, () => console.log(`listening on port ${ PORT }`))
