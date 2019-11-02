@@ -3,7 +3,7 @@ var express = require('express'),
     server = require('http').createServer(app),
     io = require('socket.io').listen(server)
 
-server.listen(process.env.PORT || 3000,  () => console.log(`listening on port ${ PORT }`))
+server.listen(process.env.PORT || 3000,  () => console.log(`listening on port ${ process.env.PORT }`))
 
 io.on('connection', (socket) => {
     console.log('Client connected');
