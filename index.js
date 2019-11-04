@@ -3,7 +3,11 @@ var express = require('express'),
     server = require('http').createServer(app),
     io = require('socket.io').listen(server)
 
-server.listen(process.env.PORT || 3000,  () => console.log(`listening on port ${ process.env.PORT }`))
+var port = process.env.PORT || 3000
+
+server.listen(port,  () => console.log(`listening on port ${ port }`))
+
+var connections = []
 
 io.on('connection', (socket) => {
     console.log('Client connected');
@@ -18,5 +22,14 @@ io.on('connection', (socket) => {
         console.log('user joined : ' + socket.username)
         socket.broadcast.emit('message',
         { 'user': 'Serveur', 'message': socket.username + ' a rejoint le chat !'})
+        socket.emit('message',
+        { 'user': 'Serveur', 'message': 'Bienvenue ' + socket.username + ' sur Rosalina. Il y a actuellement ' + connections.length + ' personne(s) connectée(s).'})
+        connections.push(socket.username)
+    })
+    socket.on('disconnect', () => {
+        console.log('user left : ' + socket.username)
+        socket.broadcast.emit('message',
+        { 'user': 'Serveur', 'message': socket.username + ' a quitté le chat !'})
+        connections[socket.username] = null
     })
 })
